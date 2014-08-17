@@ -1,0 +1,93 @@
+public class IntegerMatrixSpiralOutput {
+	
+	public static void main(String[] args) {
+
+		int matrix[][] = {{1,2,3,4,17},{5,6,7,8,18},{9,10,11,12,19},{13,14,15,16,20},{21,22,23,24,25}};
+		int maxRow = 4, maxCol = 5;
+		int initRowIndex = 0, initColIndex = 0;
+		int incrCnt = 0, decrCnt = 0;
+		int maxElements = 20, totalElements = 0;
+		
+		int i = 0, j = 0;
+		for (; i < maxRow;) {
+			
+			// 1: Print first row of the matrix
+			for (;j < maxCol && incrCnt < 1 ; j++) {			
+				System.out.println(matrix[i][j]);
+				totalElements++;
+			}
+			incrCnt++;
+			
+			if (j == maxCol && i < maxRow) {
+				j--;
+				
+				while (i < maxRow-1) {
+					// 2: Print right most column of the matrix
+					i++;
+					System.out.println(matrix[i][j]);
+					totalElements++;
+				}
+				incrCnt++;
+			}
+			
+			if (totalElements == maxElements) 
+				break;
+			
+			if (incrCnt == 2) {
+				j--;
+				while (j >= initColIndex) { //while (j >= 0) {
+					// 3: Print bottom row of the matrix
+					System.out.println(matrix[i][j]);
+					j--;
+					totalElements++;
+				}
+				decrCnt++;
+			
+				/*if (totalElements == maxElements) 
+					break;*/
+				
+				if (decrCnt < 2) {
+					j++;
+					while (i > initRowIndex) {
+						// 4: Print left most column of the matrix
+						--i;
+						if(matrix[i][j] != matrix[initRowIndex][initColIndex]) {
+							System.out.println(matrix[i][j]);
+							totalElements++;
+						}
+					}
+					decrCnt++;
+				}
+			}
+			
+			if (totalElements == maxElements) 
+				break;
+			
+			if (incrCnt == 2 && decrCnt ==2) {
+
+				if (initRowIndex < maxRow) { 
+					initRowIndex++;
+				} else { 
+					break;
+				}
+
+				if (initColIndex < maxCol) { 
+					initColIndex++;
+				} else {
+					break;
+				}
+
+				incrCnt = 0;
+				decrCnt = 0;
+			}
+
+			// reset RowIndex (i) and ColumnIndex (j)
+			i = initRowIndex;
+			j = initColIndex;
+			
+			// decrement maxRow and maxCol, after each traversal
+			maxRow--;
+			maxCol--;
+		}
+	}
+}
